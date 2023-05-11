@@ -20,14 +20,13 @@ struct WeatherManager {
     
     var delegate: WeatherManagerDelegate?
     
-    func fetchWeather (cityName: String) {
+    func fetchWeather(cityName: String) {
         let urlString = "\(weatherURL)&q=\(cityName)"
         performRequest(with: urlString)
     }
     
-    
     func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        let urlString = "\(weatherURL)&lat=\(latitude)&long=\(longitude)"
+        let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(longitude)"
         performRequest(with: urlString)
     }
 
@@ -64,15 +63,13 @@ struct WeatherManager {
         let decoder = JSONDecoder()
         
         do {
-            let decoderData = try decoder.decode(WeatherData.self, from: weatherData)
-            let id = decoderData.weather[0].id
-            let temp = decoderData.main.temp
-            let name = decoderData.name
-            
-            let weather = WeatherModel(conditionId: id, cityName: name, temperature: temp)
-            print(weather.temperatureString)
-            
-            return weather
+            let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
+             let id = decodedData.weather[0].id
+             let temp = decodedData.main.temp
+             let name = decodedData.name
+             
+             let weather = WeatherModel(conditionId: id, cityName: name, temperature: temp)
+             return weather
             
         } catch {
             delegate?.didFailWithError(error: error)
