@@ -15,6 +15,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var maxAndMinTempLabel: UILabel!
     
     var weatherManager = WeatherManager()
     var locationManager = CLLocationManager()
@@ -23,7 +24,7 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestWhenInUseAuthorization() //pop up in the screen
         locationManager.requestLocation()
         
         weatherManager.delegate = self
@@ -83,6 +84,7 @@ extension WeatherViewController : WeatherManagerDelegate {
             self.temperatureLabel.text = weather.temperatureString
             self.conditionImageView.image =  UIImage(systemName: weather.conditionName)
             self.cityLabel.text = weather.cityName
+            self.maxAndMinTempLabel.text =  "\(weather.minTemperatureString)°/\(weather.maxTemperatureString)°"
         }
     }
     
